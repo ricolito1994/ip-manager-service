@@ -8,8 +8,8 @@ Route::group([
     "middleware" => 'jwt.auth.middleware',
 ], function () {
     Route::get('/', "IPManagerController@index");
-    Route::get('find', "IPManagerController@find");
-    Route::put('update', "IPManagerController@update");
+    Route::get('find/{id}', "IPManagerController@find");
+    Route::put('update/{ip}', "IPManagerController@update");
     Route::post('create', "IPManagerController@create");
-    Route::delete('kill', "IPManagerController@kill");
+    Route::delete('kill/{ip}', "IPManagerController@kill")->middleware('is_super_admin');
 });
