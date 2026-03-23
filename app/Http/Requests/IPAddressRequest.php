@@ -17,6 +17,8 @@ class IPAddressRequest extends FormRequest
     public function rules(): array
     {
         $ipVersion = $this->input('ip_version');
+
+        $ip = $this->route('ip');
         
         return [
             'ip_version' => ['required', 'integer', Rule::in([4,6])],
@@ -24,7 +26,10 @@ class IPAddressRequest extends FormRequest
                 'required', 
                 'string', 
                 $ipVersion == 4 ? 'ipv4' : 'ipv6',
-                'unique:ip_address,ip_address'
+                #'unique:ip_address,ip_address'
+                Rule::unique('ip_address', 'ip_address')
+                    ->ignore($ip)
+                    ->whereNull('deleted_at')
             ],
             'label' => 'nullable|string|max:255',
             'created_by' => ['required', 'integer']
@@ -36,7 +41,7 @@ class IPAddressRequest extends FormRequest
         return [
             'ip_address.required' => 'Ip address is required',
             'ip_address.unique' => 'Ip address already exists.',
-            'ip_address.integer' => 'Only integer values are accepted',
+            'ip_address.string' => 'Only string values are accepted',
             'ip_version.required' => 'Ip version is required',
             'ip_version.in' => 'Ip version only 4 or 6',
             'label.max' => 'Label must be 255 characrers or less',
