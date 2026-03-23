@@ -9,7 +9,7 @@ Route::group([
 ], function () {
     Route::get('/', "IPManagerController@index");
     Route::get('find/{id}', "IPManagerController@find");
-    Route::put('update/{ip}', "IPManagerController@update");
+    Route::patch('update/{ip}', "IPManagerController@update");
     Route::post('create', "IPManagerController@create");
     Route::delete('kill/{ip}', "IPManagerController@kill")->middleware('is_super_admin');
 });

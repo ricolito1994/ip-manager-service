@@ -15,7 +15,9 @@ class IPManagerController extends Controller
     public function index(Request $request): JsonResponse 
     {
         try {
-            $ipaddress = IPAddress::filter($request)->paginate(10);
+            $ipaddress = IPAddress::filter($request)
+                ->orderBy('updated_at','desc')
+                ->paginate(10);
             return response() -> json ([
                 "data" => $ipaddress,
                 "message" => "Successes.",
@@ -37,7 +39,8 @@ class IPManagerController extends Controller
             $ipaddress = IPAddress::findOrFail($id);
             return response() -> json ([
                 "message" => "Success.",
-                "success" => true
+                "success" => true,
+                "data" => $ipaddress
             ], 200);
         } catch (\Exception $e) {
             return response() -> json ([
