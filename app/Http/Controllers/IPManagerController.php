@@ -16,7 +16,7 @@ class IPManagerController extends Controller
     {
         try {
             $ipaddress = IPAddress::filter($request)
-                ->orderBy('updated_at','desc')
+                ->orderBy('created_at','desc')
                 ->paginate(10);
             return response() -> json ([
                 "data" => $ipaddress,
